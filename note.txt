@@ -1,0 +1,39 @@
+data frame: is an array of bytes containing about request information, and data payload 
+
+![alt text](image.png)
+
+each bit represents something to show a path about where to look after the data
+
+FIN (final is the first bit at the first byte) in websocket, FIN = 1 is the last frame of data has been transmissed, 
+
+OPCODE (in the first byte of the first frame) that is indicated what is the data is that frame (text, binary ... )
+    0x0: continuation
+    0x1: text 
+    0x2: binary (audio, image... )
+    0x8: close socket
+    0x9: ping (check whether websoket is working)
+    0xA: reply ping 
+
+2rd Byte - 10nth Byte: 
+    Payload length
+        1st bit is Mark indicator: 1 is masked, 
+            We can remove it by minus payload length (decimal) - 128 (first bit in decimal)
+        2st - 7th: payload length (if less than 125)
+            = 126 => use next 2 bytes to store payload lenght 
+            = 127 => use next 8 bytes to store payload lenght
+
+4 bytes (masking key for decoding payload)
+      encode: each byte in payload will be XOR with corresponding byte in maskey
+      Decode: each byte in payload decoded will be XOR with masking key to get first content 
+
+next: payload data (encoded)
+
+
+Buffer (bộ đệm) là gì?
+    Buffer là một vùng lưu trữ tạm thời trong bộ nhớ máy tính hoặc một thiết bị phần cứng, được sử dụng để lưu trữ dữ liệu trong quá trình truyền từ nơi này sang nơi khác.
+    Hardware buffer (bộ đệm phần cứng)
+    Software buffer (bộ đệm phần mềm)
+
+    Giảm độ trễ giữa các thành phần trong hệ thống.
+    Đồng bộ hóa dữ liệu giữa các thiết bị có tốc độ truyền khác nhau.
+    Bảo vệ dữ liệu khỏi bị mất mát hoặc hỏng hóc trong quá trình truyền.
